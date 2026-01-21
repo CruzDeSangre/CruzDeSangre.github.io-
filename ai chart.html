@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT vs Gemini — Comparison</title>
+  <meta name="description"
+    content="Complete comparison between ChatGPT and Gemini AI assistants: subscription plans, benchmarks, and features.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: rgba(255, 255, 255, 0.02);
+      --bg-hover: rgba(255, 255, 255, 0.04);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-light: rgba(255, 255, 255, 0.04);
+      --text-primary: #f5f5f7;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+
+      /* Brand Colors */
+      --chatgpt-primary: #10a37f;
+      --chatgpt-bg: rgba(16, 163, 127, 0.08);
+      --chatgpt-border: rgba(16, 163, 127, 0.2);
+      --gemini-primary: #f34d65;
+      --gemini-bg: rgba(243, 77, 101, 0.08);
+      --gemini-border: rgba(243, 77, 101, 0.2);
+
+      /* Rating Colors */
+      --rating-excellent: rgba(34, 197, 94, 0.15);
+      --rating-excellent-border: rgba(34, 197, 94, 0.3);
+      --rating-great: rgba(59, 130, 246, 0.15);
+      --rating-great-border: rgba(59, 130, 246, 0.3);
+      --rating-good: rgba(234, 179, 8, 0.15);
+      --rating-good-border: rgba(234, 179, 8, 0.3);
+      --rating-fair: rgba(249, 115, 22, 0.15);
+      --rating-fair-border: rgba(249, 115, 22, 0.3);
+      --rating-poor: rgba(239, 68, 68, 0.15);
+      --rating-poor-border: rgba(239, 68, 68, 0.3);
+      --rating-bad: rgba(168, 85, 247, 0.15);
+      --rating-bad-border: rgba(168, 85, 247, 0.3);
+      --rating-worst: rgba(30, 30, 30, 0.8);
+      --rating-worst-border: rgba(80, 80, 80, 0.3);
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle background pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(16, 163, 127, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(243, 77, 101, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3rem 0 4rem;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    }
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      padding: 0.5rem;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      position: relative;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Table Styles */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+      font-size: 0.875rem;
+    }
+
+    thead {
+      background: var(--bg-secondary);
+    }
+
+    th {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th:first-child {
+      text-align: left;
+      min-width: 200px;
+    }
+
+    /* Brand headers */
+    .th-chatgpt {
+      background: var(--chatgpt-bg);
+      color: var(--chatgpt-primary);
+      border-bottom: 2px solid var(--chatgpt-border);
+    }
+
+    .th-gemini {
+      background: var(--gemini-bg);
+      color: var(--gemini-primary);
+      border-bottom: 2px solid var(--gemini-border);
+    }
+
+    td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    td:first-child {
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-primary);
+      position: sticky;
+      left: 0;
+      background: var(--bg-primary);
+      z-index: 5;
+    }
+
+    tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-hover);
+    }
+
+    tbody tr:hover td:first-child {
+      background: var(--bg-secondary);
+    }
+
+    .detail {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      opacity: 0.8;
+    }
+
+    /* Rating Colors */
+    .rating-excellent {
+      background: var(--rating-excellent);
+      border-left: 3px solid var(--rating-excellent-border);
+    }
+
+    .rating-great {
+      background: var(--rating-great);
+      border-left: 3px solid var(--rating-great-border);
+    }
+
+    .rating-good {
+      background: var(--rating-good);
+      border-left: 3px solid var(--rating-good-border);
+    }
+
+    .rating-fair {
+      background: var(--rating-fair);
+      border-left: 3px solid var(--rating-fair-border);
+    }
+
+    .rating-poor {
+      background: var(--rating-poor);
+      border-left: 3px solid var(--rating-poor-border);
+    }
+
+    .rating-bad {
+      background: var(--rating-bad);
+      border-left: 3px solid var(--rating-bad-border);
+    }
+
+    .rating-worst {
+      background: var(--rating-worst);
+      border-left: 3px solid var(--rating-worst-border);
+    }
+
+    /* Separator */
+    .separator {
+      border-left: 1px solid var(--border-color);
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      font-size: 0.8rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .legend-excellent {
+      background: rgba(34, 197, 94, 0.4);
+    }
+
+    .legend-great {
+      background: rgba(59, 130, 246, 0.4);
+    }
+
+    .legend-good {
+      background: rgba(234, 179, 8, 0.4);
+    }
+
+    .legend-fair {
+      background: rgba(249, 115, 22, 0.4);
+    }
+
+    .legend-poor {
+      background: rgba(239, 68, 68, 0.4);
+    }
+
+    .legend-bad {
+      background: rgba(168, 85, 247, 0.4);
+    }
+
+    .legend-worst {
+      background: rgba(60, 60, 60, 0.8);
+    }
+
+    /* Notes Section */
+    .notes {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .notes-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .notes-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .notes-list li {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .notes-list li::before {
+      content: attr(data-num);
+      position: absolute;
+      left: 0;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      vertical-align: super;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      padding-left: 0.5rem;
+      border-left: 3px solid var(--gemini-primary);
+    }
+
+    .section-title+.section-title,
+    .table-wrapper+.section-title {
+      margin-top: 3rem;
+    }
+
+    /* Benefits Cards */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .benefit-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .benefit-card.chatgpt {
+      border-top: 3px solid var(--chatgpt-primary);
+    }
+
+    .benefit-card.gemini {
+      border-top: 3px solid var(--gemini-primary);
+    }
+
+    .benefit-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .benefit-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .chatgpt .benefit-icon {
+      background: var(--chatgpt-bg);
+      color: var(--chatgpt-primary);
+    }
+
+    .gemini .benefit-icon {
+      background: var(--gemini-bg);
+      color: var(--gemini-primary);
+    }
+
+    .benefit-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .chatgpt .benefit-title {
+      color: var(--chatgpt-primary);
+    }
+
+    .gemini .benefit-title {
+      color: var(--gemini-primary);
+    }
+
+    .benefit-list {
+      list-style: none;
+    }
+
+    .benefit-list li {
+      position: relative;
+      padding: 0.75rem 0 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.9rem;
+    }
+
+    .benefit-list li:last-child {
+      border-bottom: none;
+    }
+
+    .benefit-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        padding: 2rem 0;
+      }
+
+      .tabs-nav {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .tab-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .legend {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
+
+    /* Chart Styles */
+    .chart-container {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      position: relative;
+      height: 400px;
+    }
+
+    .chart-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">ChatGPT vs Gemini</h1>
+      <p class="subtitle">A detailed comparison of AI assistant subscriptions and performance</p>
+    </header>
+
+    <!-- Tabs Navigation -->
+    <nav class="tabs-nav">
+      <button onclick="switchTab('specs')" id="btn-specs" class="tab-btn active">Subscription Plans</button>
+      <button onclick="switchTab('benchmarks')" id="btn-benchmarks" class="tab-btn">Benchmarks</button>
+      <button onclick="switchTab('benefits')" id="btn-benefits" class="tab-btn">Key Benefits</button>
+    </nav>
+
+    <!-- TAB 1: SPECS -->
+    <section id="tab-specs" class="tab-content active">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="border-bottom: 2px solid var(--border-color);">Feature</th>
+              <th colspan="3" class="th-chatgpt">ChatGPT</th>
+              <th colspan="3" class="th-gemini">Gemini</th>
+            </tr>
+            <tr>
+              <th class="th-chatgpt" style="text-align: center;">Free</th>
+              <th class="th-chatgpt" style="text-align: center;">Go</th>
+              <th class="th-chatgpt" style="text-align: center;">Plus</th>
+              <th class="th-gemini" style="text-align: center;">Free</th>
+              <th class="th-gemini" style="text-align: center;">Plus</th>
+              <th class="th-gemini" style="text-align: center;">Pro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reasoning model limit per day</td>
+              <td>1<span class="detail">[GPT 5 Thinking Mini]¹</span></td>
+              <td>10<span class="detail">[GPT 5 Thinking Mini]¹</span></td>
+              <td class="rating-excellent">428<span class="detail">(3000/week)<span class="detail">[GPT 5.2
+                    Thinking]</span></td>
+              <td>3+9<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
+              <td class="rating-great">30+90<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
+              <td class="rating-great">100+300<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
+            </tr>
+            <tr>
+              <td>Non-reasoning model limit</td>
+              <td>40<span class="detail">(10 every 5h)<span class="detail">[GPT 5.2 Instant]</span></td>
+              <td colspan="2" class="rating-excellent">Unlimited<span class="detail">[GPT 5.2 Instant]</span></td>
+              <td colspan="3" class="rating-excellent">Unlimited<span class="detail">[Gemini 3 Flash]</span></td>
+            </tr>
+            <tr>
+              <td>Context window limit</td>
+              <td>16k / 196k<span class="detail">(Non-reasoning / Reasoning)</span></td>
+              <td colspan="2" class="rating-great">32k / 196k<span class="detail">(Non-reasoning / Reasoning)</span>
+              </td>
+              <td>32k</td>
+              <td class="rating-great">128k</td>
+              <td class="rating-excellent">1M</td>
+            </tr>
+            <tr>
+              <td>File uploads per day</td>
+              <td>3</td>
+              <td class="rating-great">30</td>
+              <td class="rating-excellent">640<span class="detail">(80 every 3h)</span></td>
+              <td colspan="3">Unknown</td>
+            </tr>
+            <tr>
+              <td>Memory features</td>
+              <td>Memories</td>
+              <td>Memories</td>
+              <td class="rating-excellent">Memories, history, search</td>
+              <td colspan="3" class="rating-great">Memories, chat history</td>
+            </tr>
+            <tr>
+              <td>Image generation</td>
+              <td>5?²<span class="detail">[GPT Image 1.5]</span></td>
+              <td>>5?²<span class="detail">[GPT Image 1.5]</span></td>
+              <td>50?²<span class="detail">[GPT Image 1.5]</span></td>
+              <td>3+100<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
+              <td>30+300?⁶<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
+              <td class="rating-excellent">100+1000<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Image resolution (1:1)</td>
+              <td colspan="3">1024×1024 (1K)<span class="detail">[GPT Image 1.5]</span></td>
+              <td colspan="3" class="rating-excellent">2048×2048 (2K) / 1024×1024 (1K)<span class="detail">[Nanobanana
+                  Pro /
+                  Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Custom model creation</td>
+              <td>No<span class="detail">[Custom GPTs]</span></td>
+              <td colspan="2" class="rating-excellent">Yes<span class="detail">[Custom GPTs]</span></td>
+              <td colspan="3" class="rating-excellent">Yes<span class="detail">[Gems]</span></td>
+            </tr>
+            <tr>
+              <td>Folder organization</td>
+              <td colspan="3" class="rating-excellent">Yes<span class="detail">[Projects]</span></td>
+              <td colspan="3">No⁷</td>
+            </tr>
+            <tr>
+              <td>Deep research per month</td>
+              <td>5<span class="detail">[GPT 5.2 Thinking]⁴</span></td>
+              <td>5³<span class="detail">[GPT 5.2 Thinking]⁴</span></td>
+              <td>25<span class="detail">[GPT 5.2 Thinking]⁴</span></td>
+              <td>5<span class="detail">[Gemini 3 Flash Thinking]</span></td>
+              <td class="rating-great">90<span class="detail">(3/day)<span class="detail">[Gemini 3 Pro]</span></td>
+              <td class="rating-excellent">600<span class="detail">(20/day)<span class="detail">[Gemini 3 Pro]</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Agent mode per month</td>
+              <td>No</td>
+              <td>No</td>
+              <td class="rating-excellent">40</td>
+              <td colspan="3">No</td>
+            </tr>
+            <tr>
+              <td>Advertisements</td>
+              <td>Yes⁵</td>
+              <td>Yes⁵</td>
+              <td class="rating-excellent separator">No</td>
+              <td colspan="3" class="rating-excellent">No</td>
+            </tr>
+            <tr>
+              <td>Video processing per day</td>
+              <td colspan="3" class="separator">No</td>
+              <td>3<span class="detail">(Up to 5 minutes per file)</td>
+              <td>6<span class="detail">(Up to 5 minutes per file)</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Audio processing per day</td>
+              <td colspan="3" class="separator">No</td>
+              <td>3<span class="detail">(Up to 10 minutes per file)</td>
+              <td>6<span class="detail">(Up to 10 minutes per file)</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Youtube summaries</td>
+              <td colspan="3" class="separator">No</td>
+              <td colspan="3" class="rating-excellent">Yes</td>
+            </tr>
+            <tr>
+              <td>Cloud storage included</td>
+              <td colspan="3" class="separator">No</td>
+              <td>15GB⁸</td>
+              <td>200GB</td>
+              <td class="rating-excellent">2TB</td>
+            </tr>
+            <tr>
+              <td>Plan sharing</td>
+              <td colspan="3" class="separator">No</td>
+              <td>No</td>
+              <td colspan="2" class="rating-excellent">Up to 6 accounts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item"><span class="legend-color legend-excellent"></span> Best option</div>
+        <div class="legend-item"><span class="legend-color legend-great"></span> Sufficient (subjectively)
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="notes">
+        <p class="notes-title">Notes</p>
+        <ul class="notes-list">
+          <li data-num="1.">Free and Go accounts don't have access to GPT 5.2 Thinking; they likely use GPT 5 Thinking
+            Mini.</li>
+          <li data-num="2.">GPT Image 1.5 limits are unknown. Previous model limits were ~50/day for Plus, ~5/day for
+            Free.</li>
+          <li data-num="3.">According to user reports. The actual limits are not public.</li>
+          <li data-num="4.">Open AI has only reported that deep research uses a thinking model, it is safe to assume
+            it's the latest one.</li>
+          <li data-num="5.">Ads only in the USA, for now.</li>
+          <li data-num="6.">Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.</li>
+          <li data-num="7.">NotebookLM differs from Projects. It can only be linked with Gemini chats on the web,
+            not in the app; and is less creative due to an anti-hallucination tuning.
+          </li>
+          <li data-num="8.">Free accounts use the Google account's free 15GB storage.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 2: BENCHMARKS -->
+    <section id="tab-benchmarks" class="tab-content">
+
+      <!-- AA-Omniscience -->
+      <h2 class="section-title">Response Accuracy — AA-Omniscience Benchmark</h2>
+      <div class="chart-container">
+        <canvas id="omniscienceChart"></canvas>
+      </div>
+      <p class="chart-note">Higher is better for Correct & Abstention. Lower is better for Hallucination.</p>
+
+      <!-- MRCR v2 -->
+      <h2 class="section-title" style="margin-top: 3rem;">Response Accuracy — MRCR v2 8-Needle Benchmark</h2>
+      <div class="chart-container">
+        <canvas id="mrcrChart"></canvas>
+      </div>
+      <p class="chart-note">Shows how accuracy degrades as context length increases. ChatGPT models don't support 1M
+        tokens.</p>
+
+      <!-- Notes -->
+      <div class="notes" style="margin-top: 2rem;">
+        <p class="notes-title">Notes</p>
+        <ul class="notes-list">
+          <li data-num="1.">GPT-5.2:medium used, as GPT-5.2:xhigh is not available on Plus nor Go accounts.</li>
+          <li data-num="2.">Gemini-3-flash-preview:high</li>
+          <li data-num="3.">There's no 196k tokens benchmark, and the next available one is 256k, which is not supported
+            by ChatGPT on the web and app.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 3: BENEFITS -->
+    <section id="tab-benefits" class="tab-content">
+      <div class="benefits-grid">
+        <!-- ChatGPT -->
+        <div class="benefit-card chatgpt">
+          <div class="benefit-header">
+            <div class="benefit-icon">◆</div>
+            <h2 class="benefit-title">ChatGPT</h2>
+          </div>
+          <ul class="benefit-list">
+            <li>Easy switching between different personalities</li>
+            <li>Web search thinks significantly longer (7-10 min vs Gemini's 1-3 min)</li>
+            <li>Can connect to a limited selection of sites, though tool calls can be inconsistent</li>
+          </ul>
+        </div>
+
+        <!-- Gemini -->
+        <div class="benefit-card gemini">
+          <div class="benefit-header">
+            <div class="benefit-icon">✦</div>
+            <h2 class="benefit-title">Gemini</h2>
+          </div>
+          <ul class="benefit-list">
+            <li>Deep research produces longer, more detailed investigations</li>
+            <li>Nanobanana Pro offers faster image generation than GPT Image 1.5. Its images also appear more realistic
+              (subjectively)</li>
+            <li>Native Android integration (iOS coming soon, confirmed), though it can be over-eager with tool calls
+            <li>Includes uses of Claude Opus 4.5 and Claude Sonnet 4.5 through Antigravity
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      document.getElementById('btn-' + tabId).classList.add('active');
+    }
+
+    // Chart.js configuration
+    Chart.defaults.color = '#a1a1aa';
+    Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    // Colors
+    const chatgptColor = '#10a37f';
+    const chatgptColorLight = 'rgba(16, 163, 127, 0.7)';
+    const geminiColor = '#f34d65';
+    const geminiColorLight = 'rgba(243, 77, 101, 0.7)';
+
+    // AA-Omniscience Benchmark - Grouped Bar Chart
+    const omniscienceCtx = document.getElementById('omniscienceChart').getContext('2d');
+    new Chart(omniscienceCtx, {
+      type: 'bar',
+      data: {
+        labels: ['GPT 5.2 Thinking¹', 'GPT 5.2 Instant', 'Gemini 3 Pro', 'Gemini 3 Flash Thinking²', 'Gemini 3 Flash'],
+        datasets: [
+          {
+            label: 'Correct ↑',
+            data: [36.0, 28.0, 54.0, 54.0, 47.0],
+            backgroundColor: 'rgba(34, 197, 94, 0.7)',
+            borderColor: 'rgba(34, 197, 94, 1)',
+            borderWidth: 1,
+            borderRadius: 4
+          },
+          {
+            label: 'Abstention ↑',
+            data: [26.2, 28.8, 5.5, 4.3, 4.8],
+            backgroundColor: 'rgba(139, 92, 246, 0.7)',
+            borderColor: 'rgba(139, 92, 246, 1)',
+            borderWidth: 1,
+            borderRadius: 4
+          },
+          {
+            label: 'Hallucination ↓',
+            data: [37.8, 43.2, 40.5, 43.7, 48.2],
+            backgroundColor: 'rgba(239, 68, 68, 0.7)',
+            borderColor: 'rgba(239, 68, 68, 1)',
+            borderWidth: 1,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              padding: 20,
+              usePointStyle: true,
+              pointStyle: 'rectRounded'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(18, 18, 26, 0.95)',
+            titleColor: '#f5f5f7',
+            bodyColor: '#a1a1aa',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function (context) {
+                return context.dataset.label + ': ' + context.parsed.y + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function (value) {
+                return value + '%';
+              }
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            }
+          },
+          x: {
+            stacked: true,
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+
+    // MRCR v2 8-Needle Benchmark - Line Chart
+    const mrcrCtx = document.getElementById('mrcrChart').getContext('2d');
+    new Chart(mrcrCtx, {
+      type: 'line',
+      data: {
+        labels: ['8k', '16k', '32k', '64k', '128k', '1M'],
+        datasets: [
+          {
+            label: 'GPT 5.2 Thinking¹',
+            data: [87.9, 78.2, 75.7, 66.7, 63.1, null],
+            borderColor: chatgptColor,
+            backgroundColor: chatgptColorLight,
+            borderWidth: 3,
+            tension: 0.3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: chatgptColor,
+            spanGaps: false
+          },
+          {
+            label: 'GPT 5.2 Instant',
+            data: [49.4, 45.1, 50.4, 41.5, 31.9, null],
+            borderColor: 'rgba(16, 163, 127, 0.5)',
+            backgroundColor: 'rgba(16, 163, 127, 0.3)',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            tension: 0.3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: 'rgba(16, 163, 127, 0.5)',
+            spanGaps: false
+          },
+          {
+            label: 'Gemini 3 Pro',
+            data: [98.0, 91.3, 86.6, 72.1, 54.2, 24.5],
+            borderColor: geminiColor,
+            backgroundColor: geminiColorLight,
+            borderWidth: 3,
+            tension: 0.3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: geminiColor
+          },
+          {
+            label: 'Gemini 3 Flash Thinking²',
+            data: [96.7, 85.3, 84.9, 72.9, 51.5, 32.6],
+            borderColor: 'rgba(243, 77, 101, 0.7)',
+            backgroundColor: 'rgba(243, 77, 101, 0.5)',
+            borderWidth: 2,
+            tension: 0.3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: 'rgba(243, 77, 101, 0.7)'
+          },
+          {
+            label: 'Gemini 3 Flash',
+            data: [75.5, 46.2, 39.0, 36.9, 25.4, 25.7],
+            borderColor: 'rgba(243, 77, 101, 0.4)',
+            backgroundColor: 'rgba(243, 77, 101, 0.2)',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            tension: 0.3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointBackgroundColor: 'rgba(243, 77, 101, 0.4)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              padding: 20,
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(18, 18, 26, 0.95)',
+            titleColor: '#f5f5f7',
+            bodyColor: '#a1a1aa',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function (context) {
+                if (context.parsed.y === null) return context.dataset.label + ': Not supported';
+                return context.dataset.label + ': ' + context.parsed.y + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function (value) {
+                return value + '%';
+              }
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            title: {
+              display: true,
+              text: 'Accuracy',
+              color: '#71717a'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            title: {
+              display: true,
+              text: 'Context Length (tokens)',
+              color: '#71717a'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
