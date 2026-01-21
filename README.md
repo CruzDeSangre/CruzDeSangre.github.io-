@@ -1,2 +1,2 @@
-# CruzDeSangre.github.io-
-Comparison between ChatGPT monthly plans and Gemini monthly plans
+# CruzDeSangre.github.io
+Comparison between ChatGPT's monthly plans and Gemini's monthly plans
