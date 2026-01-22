@@ -194,6 +194,16 @@
       border: 1px solid var(--border-color);
       background: var(--bg-card);
       backdrop-filter: blur(10px);
+      /* Hide scrollbar */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    .table-wrapper::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari, Opera */
     }
 
     table {
@@ -1001,6 +1011,25 @@
               <td>No</td>
               <td colspan="2" class="rating-excellent">Up to 6 accounts</td>
             </tr>
+            <tr>
+              <td>Age estimation and verification method</td>
+              <td colspan="3" class="separator">AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹⁰</span><span
+                  class="detail">Verification only with ID, through a
+                  third-party
+                  (Persona Identities)<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹¹</span></span>
+              </td>
+              <td colspan="3" class="rating-great">Birth date based (prioritized), AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹⁰</span><span
+                  class="detail">Verification with ID or
+                  credit card, sent
+                  directly to Google<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹¹</span></span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1040,6 +1069,11 @@
             less creative due to an anti-hallucination tuning.
           </li>
           <li data-num="9.">Free accounts use the Google account's free 15GB storage.</li>
+          <li data-num="10.">AI-based age estimation can be unreliable, sometimes flagging an account as
+            underage based on the user's preferences.</li>
+          <li data-num="11.">Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona
+            Identities.</li>
         </ul>
       </div>
     </section>
@@ -1517,7 +1551,7 @@
 
   <footer
     style="text-align: center; padding: 2rem 1rem; margin-top: 3rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem;">
-    <em>Last updated on 21/01/2026</em>
+    <em>Last updated on 22/01/2026</em>
   </footer>
 </body>
 
