@@ -1,4 +1,33 @@
 <!DOCTYPE html>
+<!--
+  ╔════════════════════════════════════════════════════════════════════════════╗
+  ║                           DEVELOPER REMINDER                               ║
+  ╠════════════════════════════════════════════════════════════════════════════╣
+  ║  USA-EXCLUSIVE FEATURES TOGGLE:                                            ║
+  ║  When adding new USA-exclusive content to tables, use these classes:       ║
+  ║                                                                            ║
+  ║  1. For ENTIRE CELLS with USA content:                                     ║
+  ║     - Add class "usa-restricted" to the <td> for purple border             ║
+  ║                                                                            ║
+  ║  2. For PARTIAL content (hide part, show rest):                            ║
+  ║     - Wrap USA-only text with <span class="usa-only">...</span>            ║
+  ║                                                                            ║
+  ║  3. For content that CHANGES when USA is hidden:                           ║
+  ║     - Wrap original with <span class="usa-main">...</span>                 ║
+  ║     - Add alternative with <span class="usa-alt">...</span>                ║
+  ║       (usa-alt is hidden by default, shown when toggle is off)             ║
+  ║                                                                            ║
+  ║  4. For ENTIRE ROWS that should disappear (like Advertisements):           ║
+  ║     - Add class "usa-ad-row" to the <tr>                                   ║
+  ║                                                                            ║
+  ║  Current USA-exclusive items:                                              ║
+  ║     - Advertisements (ChatGPT Free/Go) - usa-ad-row                        ║
+  ║     - Ecosystem memory (Gemini Pro/Ultra) - usa-only                       ║
+  ║     - Gemini 3 Deep Think model (Gemini Ultra) - usa-only + usa-main/alt   ║
+  ║     - Agent mode 6000 uses (Gemini Ultra) - usa-main/alt → "No"            ║
+  ║     - Context window 196k (Gemini Ultra) - usa-main/alt → "1M"             ║
+  ╚════════════════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 
 <head>
@@ -60,6 +89,9 @@
       --rating-bad-border: rgba(168, 85, 247, 0.3);
       --rating-worst: rgba(30, 30, 30, 0.8);
       --rating-worst-border: rgba(80, 80, 80, 0.3);
+
+      /* USA Restricted */
+      --usa-restricted-border: rgba(168, 85, 247, 0.5);
     }
 
     body {
@@ -168,7 +200,7 @@
     /* Tab Content */
     .tab-content {
       display: none;
-      animation: fadeIn 0.4s ease-out;
+      animation: fadeIn 0.15s ease-out;
     }
 
     .tab-content.active {
@@ -287,37 +319,30 @@
     /* Rating Colors */
     .rating-excellent {
       background: var(--rating-excellent);
-      border-left: 3px solid var(--rating-excellent-border);
     }
 
     .rating-great {
       background: var(--rating-great);
-      border-left: 3px solid var(--rating-great-border);
     }
 
     .rating-good {
       background: var(--rating-good);
-      border-left: 3px solid var(--rating-good-border);
     }
 
     .rating-fair {
       background: var(--rating-fair);
-      border-left: 3px solid var(--rating-fair-border);
     }
 
     .rating-poor {
       background: var(--rating-poor);
-      border-left: 3px solid var(--rating-poor-border);
     }
 
     .rating-bad {
       background: var(--rating-bad);
-      border-left: 3px solid var(--rating-bad-border);
     }
 
     .rating-worst {
       background: var(--rating-worst);
-      border-left: 3px solid var(--rating-worst-border);
     }
 
     /* Separator */
@@ -343,6 +368,11 @@
       align-items: center;
       gap: 0.5rem;
       color: var(--text-secondary);
+      margin-right: 1.5rem;
+    }
+
+    .legend-item:last-child {
+      margin-right: 0;
     }
 
     .legend-color {
@@ -377,6 +407,16 @@
 
     .legend-worst {
       background: rgba(60, 60, 60, 0.8);
+    }
+
+    .legend-usa-restricted {
+      background: transparent;
+      border: 2px solid rgba(168, 85, 247, 0.5);
+    }
+
+    /* USA Restricted Cell Style */
+    .usa-restricted {
+      box-shadow: inset 0 0 0 2px var(--usa-restricted-border);
     }
 
     /* Notes Section */
@@ -769,6 +809,106 @@
       visibility: visible;
     }
 
+    /* Tooltip positioning for last columns - prevent right edge cutoff */
+    td:last-child .annotation::after,
+    th:last-child .annotation::after {
+      left: auto;
+      right: 0;
+      transform: translateY(-8px);
+    }
+
+    td:last-child .annotation::before,
+    th:last-child .annotation::before {
+      left: auto;
+      right: 0px;
+      transform: translateY(4px);
+    }
+
+    /* Price Tier Toggle */
+    .price-tier-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .price-tier-toggle {
+      display: flex;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      padding: 0.35rem;
+      gap: 0.25rem;
+    }
+
+    .price-tier-btn {
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .price-tier-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    .price-tier-btn.active {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Table visibility for tier switching */
+    .tier-table {
+      transition: opacity 0.3s ease, max-height 0.4s ease;
+    }
+
+    .tier-table.hidden {
+      display: none;
+    }
+
+    .tier-table.fade-out {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    .tier-table.fade-in {
+      animation: tierFadeIn 0.15s ease-out forwards;
+    }
+
+    @keyframes tierFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* High tier table column widths */
+    #table-high-tier table {
+      table-layout: fixed;
+    }
+
+    #table-high-tier th:first-child,
+    #table-high-tier td:first-child {
+      width: 273px;
+    }
+
+    #table-high-tier th:not(:first-child),
+    #table-high-tier td:not(:first-child) {
+      width: calc((100% - 273px) / 2);
+    }
+
     /* Subjective Recommendations Toggle */
     .legend-toggle-wrapper {
       display: flex;
@@ -782,7 +922,7 @@
     .legend-items {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      /* gap removed for animation support */
     }
 
     .subjective-toggle {
@@ -817,12 +957,133 @@
     }
 
     .legend-subjective {
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, max-width 0.4s ease, margin-right 0.4s ease;
+      max-width: 300px;
+      /* Sufficient width */
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .hide-subjective .legend-subjective {
       opacity: 0;
       pointer-events: none;
+      max-width: 0;
+      margin-right: 0;
+    }
+
+    /* USA-Exclusive Toggle */
+    .toggle-container {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .usa-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .usa-toggle .toggle-switch.active {
+      background: var(--rating-bad);
+      border-color: var(--rating-bad-border);
+    }
+
+    .usa-toggle .toggle-switch.active::after {
+      background: rgba(168, 85, 247, 0.8);
+    }
+
+    /* Hide USA-exclusive elements when toggle is off */
+    .legend-usa {
+      transition: opacity 0.3s ease;
+    }
+
+    .hide-usa-exclusive .legend-usa {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hide-usa-exclusive .usa-restricted {
+      box-shadow: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .usa-restricted {
+      transition: box-shadow 0.3s ease;
+    }
+
+    .rating-great.usa-restricted {
+      transition: background 0.3s ease, border-left-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hide USA-only inline content */
+    .usa-only,
+    .usa-main {
+      display: inline-flex;
+      opacity: 1;
+      max-width: 500px;
+      /* Large enough to fit content */
+      white-space: nowrap;
+      vertical-align: bottom;
+      transition: opacity 0.3s ease 0.1s, max-width 0.5s ease;
+    }
+
+    .hide-usa-exclusive .usa-only,
+    .hide-usa-exclusive .usa-main {
+      opacity: 0;
+      max-width: 0;
+      margin: 0;
+      pointer-events: none;
+      overflow: hidden;
+      transition: opacity 0.3s ease 0s, max-width 0.5s ease;
+    }
+
+    /* Animation specifically for advertisement rows */
+    .usa-ad-row td {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 1;
+    }
+
+    .hide-usa-exclusive .usa-ad-row td {
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 0;
+      line-height: 0;
+      opacity: 0;
+      border-bottom: 1px solid transparent;
+      color: transparent;
+      overflow: hidden;
+    }
+
+    /* Fade out content slightly faster than collapse */
+    .hide-usa-exclusive .usa-ad-row td * {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Show alternate content when USA is hidden */
+    .usa-alt {
+      display: inline-flex;
+      opacity: 0;
+      max-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      vertical-align: bottom;
+      transition: opacity 0.3s ease, max-width 0.5s ease;
+      pointer-events: none;
+    }
+
+    .hide-usa-exclusive .usa-alt {
+      opacity: 1;
+      max-width: 500px;
+      pointer-events: auto;
+      overflow: visible;
     }
   </style>
 </head>
@@ -837,6 +1098,15 @@
       <p class="subtitle">A detailed comparison of AI assistant subscriptions and performance</p>
     </header>
 
+    <!-- Price Tier Toggle -->
+    <div class="price-tier-container">
+      <div class="price-tier-toggle">
+        <button onclick="switchPriceTier('free')" id="btn-tier-free" class="price-tier-btn">$0 plans</button>
+        <button onclick="switchPriceTier('low')" id="btn-tier-low" class="price-tier-btn active">$0-$20 plans</button>
+        <button onclick="switchPriceTier('high')" id="btn-tier-high" class="price-tier-btn">$200-$250 plans</button>
+      </div>
+    </div>
+
     <!-- Tabs Navigation -->
     <nav class="tabs-nav">
       <button onclick="switchTab('specs')" id="btn-specs" class="tab-btn active">Subscription Plans</button>
@@ -846,7 +1116,141 @@
 
     <!-- TAB 1: SPECS -->
     <section id="tab-specs" class="tab-content active">
-      <div class="table-wrapper">
+
+      <!-- Free Plans Table -->
+      <div class="table-wrapper tier-table hidden" id="table-free-tier">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="border-bottom: 2px solid var(--border-color);">Feature</th>
+              <th class="th-chatgpt">ChatGPT</th>
+              <th class="th-gemini">Gemini</th>
+            </tr>
+            <tr>
+              <th class="th-chatgpt" style="text-align: center;">Free</th>
+              <th class="th-gemini" style="text-align: center;">Free</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reasoning model limit per day</td>
+              <td>1<span class="detail">[GPT 5 Thinking Mini]<span class="annotation"
+                    data-tooltip="Free and Go accounts don't have access to GPT 5.2 Thinking, so it's likely they use GPT 5 Thinking Mini instead.">¹</span></span>
+              </td>
+              <td class="rating-excellent">3+9<span class="detail">[Gemini 3 Pro + Gemini 3 Flash Thinking]</span></td>
+            </tr>
+            <tr>
+              <td>Non-reasoning model limit per day</td>
+              <td>40<span class="detail">(10 every 5h)<span class="detail">[GPT 5.2 Instant]</span></td>
+              <td class="rating-excellent">Unlimited<span class="detail">[Gemini 3 Flash]</span></td>
+            </tr>
+            <tr>
+              <td>Context window limit</td>
+              <td>16k / 196k<span class="detail">(Non-reasoning / Reasoning)</span></td>
+              <td class="rating-excellent">32k</td>
+            </tr>
+            <tr>
+              <td>File uploads per day</td>
+              <td>3</td>
+              <td>Unknown</td>
+            </tr>
+            <tr>
+              <td>Memory features</td>
+              <td>Memories</td>
+              <td class="rating-excellent">Memories, chat history<span class="annotation"
+                  data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Image generation per day</td>
+              <td>5?<span class="annotation"
+                  data-tooltip="GPT Image 1.5 limits are unknown. GPT Image 1 limits were ~50/day for Plus, ~5/day for Free.">²</span><span
+                  class="detail">[GPT Image 1.5]</span></td>
+              <td class="rating-excellent">3+100<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Image resolution (1:1)</td>
+              <td>1024×1024 (1K)<span class="detail">[GPT Image 1.5]</span></td>
+              <td class="rating-excellent">2048×2048 (2K) / 1024×1024 (1K)<span class="detail">[Nanobanana
+                  Pro /
+                  Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Custom model creation</td>
+              <td>No<span class="detail">[Custom GPTs]</span></td>
+              <td class="rating-excellent">Yes<span class="detail">[Gems]</span></td>
+            </tr>
+            <tr>
+              <td>Folder organization</td>
+              <td class="rating-excellent">Yes<span class="detail">[Projects]</span></td>
+              <td>No<span class="annotation"
+                  data-tooltip="NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a folder structure when used inside Gemini; and when used on the NotebookLM site it is less creative due to an anti-hallucination tuning.">⁹</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Deep research uses per month</td>
+              <td class="rating-excellent">5<span class="detail">[GPT 5.2 Thinking]<span class="annotation"
+                    data-tooltip="OpenAI has only reported that deep research uses a thinking model, it is safe to assume it's the latest one.">⁴</span></span>
+              </td>
+              <td class="rating-excellent">5<span class="detail">[Gemini 3 Flash Thinking]</span></td>
+            </tr>
+            <tr>
+              <td>Agent mode uses per month</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr class="usa-ad-row">
+              <td>Advertisements</td>
+              <td class="usa-restricted">Yes<span class="annotation" data-tooltip="Only in the USA, for now.">⁵</span>
+              </td>
+              <td class="rating-excellent">No</td>
+            </tr>
+            <tr>
+              <td>Video processing per day</td>
+              <td>No</td>
+              <td class="rating-excellent">3<span class="detail">(Up to 5 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Audio processing per day</td>
+              <td>No</td>
+              <td class="rating-excellent">3<span class="detail">(Up to 10 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Youtube summaries</td>
+              <td>No</td>
+              <td class="rating-excellent">Yes</td>
+            </tr>
+            <tr>
+              <td>Cloud storage included</td>
+              <td>No</td>
+              <td class="rating-excellent">15GB<span class="annotation"
+                  data-tooltip="Free accounts use the Google account's free 15GB storage.">¹⁰</span></td>
+            </tr>
+            <tr>
+              <td>Age estimation and verification method</td>
+              <td>AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
+                  class="detail">Verification only with ID, through a
+                  third-party
+                  (Persona Identities)<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
+              </td>
+              <td class="rating-great">Birth date based (prioritized), AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
+                  class="detail">Verification with ID or
+                  credit card, sent
+                  directly to Google<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 0-20 USD Table -->
+      <div class="table-wrapper tier-table" id="table-low-tier">
         <table>
           <thead>
             <tr>
@@ -874,12 +1278,12 @@
               </td>
               <td class="rating-excellent">428<span class="detail">(3000/week)<span class="detail">[GPT 5.2
                     Thinking]</span></td>
-              <td>3+9<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
-              <td class="rating-great">30+90<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
-              <td class="rating-great">100+300<span class="detail">[Gemini 3 Pro + Flash Thinking]</span></td>
+              <td>3+9<span class="detail">[Gemini 3 Pro + Gemini 3 Flash Thinking]</span></td>
+              <td class="rating-great">30+90<span class="detail">[Gemini 3 Pro + Gemini 3 Flash Thinking]</span></td>
+              <td class="rating-great">100+300<span class="detail">[Gemini 3 Pro + Gemini 3 Flash Thinking]</span></td>
             </tr>
             <tr>
-              <td>Non-reasoning model limit</td>
+              <td>Non-reasoning model limit per day</td>
               <td>40<span class="detail">(10 every 5h)<span class="detail">[GPT 5.2 Instant]</span></td>
               <td colspan="2" class="rating-excellent">Unlimited<span class="detail">[GPT 5.2 Instant]</span></td>
               <td colspan="3" class="rating-excellent">Unlimited<span class="detail">[Gemini 3 Flash]</span></td>
@@ -904,13 +1308,21 @@
               <td>Memory features</td>
               <td>Memories</td>
               <td>Memories</td>
-              <td class="rating-excellent">Memories, history, search</td>
-              <td colspan="3" class="rating-great">Memories, chat history<span class="annotation"
+              <td class="rating-great">Memories, chat history, chat search</td>
+              <td colspan="2">Memories, chat history<span class="annotation"
                   data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span>
+              </td>
+              <td class="rating-great usa-restricted">Memories, chat history, <span class="annotation"
+                  data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span><span
+                  class="usa-only">ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
+                  Photos; Google, Maps, and YouTube search history and other Google Workspace services) through Gemini Personal Intelligence to help you
+                  find information, personalize answers and more.
+                  Of course, only if toggled by the user, since the option is off by default.">⁷</span><span
+                    class="annotation" data-tooltip="Only in the USA, for now.">⁵</span></span>
               </td>
             </tr>
             <tr>
-              <td>Image generation</td>
+              <td>Image generation per day</td>
               <td>5?<span class="annotation"
                   data-tooltip="GPT Image 1.5 limits are unknown. GPT Image 1 limits were ~50/day for Plus, ~5/day for Free.">²</span><span
                   class="detail">[GPT Image 1.5]</span></td>
@@ -922,7 +1334,7 @@
                   class="detail">[GPT Image 1.5]</span></td>
               <td>3+100<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
               <td>30+300?<span class="annotation"
-                  data-tooltip="Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.">⁷</span><span
+                  data-tooltip="Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.">⁸</span><span
                   class="detail">[Nanobanana Pro + Nanobanana]</span></td>
               <td class="rating-excellent">100+1000<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
             </tr>
@@ -943,11 +1355,11 @@
               <td>Folder organization</td>
               <td colspan="3" class="rating-excellent">Yes<span class="detail">[Projects]</span></td>
               <td colspan="3">No<span class="annotation"
-                  data-tooltip="NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a folder structure when used inside Gemini; and when used on the NotebookLM site it is less creative due to an anti-hallucination tuning.">⁸</span>
+                  data-tooltip="NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a folder structure when used inside Gemini; and when used on the NotebookLM site it is less creative due to an anti-hallucination tuning.">⁹</span>
               </td>
             </tr>
             <tr>
-              <td>Deep research per month</td>
+              <td>Deep research uses per month</td>
               <td>5<span class="detail">[GPT 5.2 Thinking]<span class="annotation"
                     data-tooltip="OpenAI has only reported that deep research uses a thinking model, it is safe to assume it's the latest one.">⁴</span></span>
               </td>
@@ -965,16 +1377,17 @@
               </td>
             </tr>
             <tr>
-              <td>Agent mode per month</td>
+              <td>Agent mode uses per month</td>
               <td>No</td>
               <td>No</td>
               <td class="rating-excellent">40</td>
               <td colspan="3">No</td>
             </tr>
-            <tr>
+            <tr class="usa-ad-row">
               <td>Advertisements</td>
-              <td>Yes<span class="annotation" data-tooltip="Ads only in the USA, for now.">⁵</span></td>
-              <td>Yes<span class="annotation" data-tooltip="Ads only in the USA, for now.">⁵</span></td>
+              <td colspan="2" class="usa-restricted">Yes<span class="annotation"
+                  data-tooltip="Only in the USA, for now.">⁵</span>
+              </td>
               <td class="rating-excellent separator">No</td>
               <td colspan="3" class="rating-excellent">No</td>
             </tr>
@@ -1001,7 +1414,7 @@
               <td>Cloud storage included</td>
               <td colspan="3" class="separator">No</td>
               <td>15GB<span class="annotation"
-                  data-tooltip="Free accounts use the Google account's free 15GB storage.">⁹</span></td>
+                  data-tooltip="Free accounts use the Google account's free 15GB storage.">¹⁰</span></td>
               <td class="rating-great">200GB</td>
               <td class="rating-excellent">2TB</td>
             </tr>
@@ -1014,20 +1427,169 @@
             <tr>
               <td>Age estimation and verification method</td>
               <td colspan="3" class="separator">AI-based<span class="annotation"
-                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹⁰</span><span
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
                   class="detail">Verification only with ID, through a
                   third-party
                   (Persona Identities)<span class="annotation"
                     data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
-            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹¹</span></span>
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
               </td>
               <td colspan="3" class="rating-great">Birth date based (prioritized), AI-based<span class="annotation"
-                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹⁰</span><span
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
                   class="detail">Verification with ID or
                   credit card, sent
                   directly to Google<span class="annotation"
                     data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
-            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹¹</span></span>
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- +100 USD Table -->
+      <div class="table-wrapper tier-table hidden" id="table-high-tier">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" style="border-bottom: 2px solid var(--border-color);">Feature</th>
+              <th class="th-chatgpt">ChatGPT</th>
+              <th class="th-gemini">Gemini</th>
+            </tr>
+            <tr>
+              <th class="th-chatgpt" style="text-align: center;">Pro</th>
+              <th class="th-gemini" style="text-align: center;">Ultra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reasoning model limit per day</td>
+              <td class="rating-excellent">Unlimited<span class="detail">[ChatGPT 5.2 Pro + ChatGPT 5.2 Thinking]</span>
+              </td>
+              <td class="rating-great usa-restricted"><span class="usa-main"><span class="usa-only"></span>10<span
+                    class="annotation" data-tooltip="Only in the USA, for now.">⁵</span>+</span>500+1500<span
+                  class="detail">[<span class="usa-only">Gemini 3 Deep
+                    Think<span class="annotation" data-tooltip="Only in the USA, for now.">⁵</span> +
+                  </span>Gemini 3 Pro + Gemini 3 Flash Thinking]</td>
+            </tr>
+            <tr>
+              <td>Non-reasoning model limit per day</td>
+              <td class="rating-excellent">Unlimited<span class="detail">[ChatGPT 5.2 Instant]</span></td>
+              <td class="rating-excellent">Unlimited<span class="detail">[Gemini 3 Flash]</span></td>
+            </tr>
+            <tr>
+              <td>Context window limit</td>
+              <td class="rating-great">128k / 196k<span class="detail">(Non-reasoning / Reasoning)</span></td>
+              <td class="rating-excellent usa-restricted"><span class="usa-main"><span class="usa-only">196k<span
+                      class="annotation" data-tooltip="Only in the USA, for now.">⁵</span> / </span></span>1M<span
+                  class="detail"><span class="usa-only">(Gemini 3 Deep Think<span class="annotation"
+                      data-tooltip="Only in the USA, for now.">⁵</span> / Other models)</span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>File uploads per day</td>
+              <td class="rating-excellent">Unlimited</td>
+              <td>Unknown</td>
+            </tr>
+            <tr>
+              <td>Memory features</td>
+              <td class="rating-great">Memories, chat history, chat search, proactive research<span class="annotation"
+                  data-tooltip="ChatGPT can proactively research topics and present them as a briefing, unprompted, through ChatGPT Pulse.">¹³</span>
+              </td>
+              <td class="rating-great usa-restricted">Memories, chat history, <span class="annotation"
+                  data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span><span
+                  class="usa-only">ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
+                  Photos; Google, Maps, and YouTube search history and other Google Workspace services) through Gemini Personal Intelligence to help you
+                  find information, personalize answers and more.
+                  Of course, only if toggled by the user, since the option is off by default.">⁷</span><span
+                    class="annotation" data-tooltip="Only in the USA, for now.">⁵</span></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Image generation per day</td>
+              <td class="rating-excellent">Unlimited<span class="detail">[GPT Image 1.5]</span></td>
+              <td class="rating-great">1000+1000<span class="detail">[Nanobanana Pro + Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Image resolution (1:1)</td>
+              <td>1024×1024 (1K)<span class="detail">[GPT Image 1.5]</span></td>
+              <td class="rating-excellent">2048×2048 (2K) / 1024×1024 (1K)<span class="detail">[Nanobanana
+                  Pro /
+                  Nanobanana]</span></td>
+            </tr>
+            <tr>
+              <td>Custom model creation</td>
+              <td class="rating-excellent">Yes<span class="detail">[Custom GPTs]</span></td>
+              <td class="rating-excellent">Yes<span class="detail">[Gems]</span></td>
+            </tr>
+            <tr>
+              <td>Folder organization</td>
+              <td class="rating-excellent">Yes<span class="detail">[Projects]</span></td>
+              <td>No<span class="annotation"
+                  data-tooltip="NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a folder structure when used inside Gemini; and when used on the NotebookLM site it is less creative due to an anti-hallucination tuning.">⁹</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Deep research uses per month</td>
+              <td class="rating-great">250<span class="detail">[GPT 5.2 Thinking]<span class="annotation"
+                    data-tooltip="OpenAI has only reported that deep research uses a thinking model, it is safe to assume it's the latest one.">⁴</span></span>
+              </td>
+              <td class="rating-excellent">6000<span class="detail">(200/day)<span class="detail">[Gemini 3 Pro]</span>
+            </tr>
+            <tr>
+              <td>Agent mode uses per month</td>
+              <td class="rating-great">400</td>
+              <td class="rating-excellent usa-restricted"><span class="usa-main"><span class="usa-only"></span>6000<span
+                    class="annotation" data-tooltip="Only in the USA, for now.">⁵</span><span class="detail"
+                    class="usa-only">(200/day)</span></span><span class="usa-alt">No</span></td>
+            </tr>
+            <tr class="usa-ad-row">
+              <td>Advertisements</td>
+              <td class="rating-excellent">No</td>
+              <td class="rating-excellent">No</td>
+            </tr>
+            <tr>
+              <td>Video processing per day</td>
+              <td class="separator">No</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Audio processing per day</td>
+              <td class="separator">No</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</td>
+            </tr>
+            <tr>
+              <td>Youtube summaries</td>
+              <td class="separator">No</td>
+              <td class="rating-excellent">Yes</td>
+            </tr>
+            <tr>
+              <td>Cloud storage included</td>
+              <td class="separator">No</td>
+              <td class="rating-excellent">30TB</td>
+            </tr>
+            <tr>
+              <td>Plan sharing</td>
+              <td>No</td>
+              <td class="rating-excellent">Up to 6 accounts</td>
+            </tr>
+            <tr>
+              <td>Age estimation and verification method</td>
+              <td>AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
+                  class="detail">Verification only with ID, through a
+                  third-party
+                  (Persona Identities)<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
+              </td>
+              <td class="rating-great">Birth date based (prioritized), AI-based<span class="annotation"
+                  data-tooltip="AI-based age estimation can be unreliable, sometimes flagging an account as underage based on the user's preferences.">¹¹</span><span
+                  class="detail">Verification with ID or
+                  credit card, sent
+                  directly to Google<span class="annotation"
+                    data-tooltip="Which age verification method is better depends on whether you're more comfortable sharing
+            proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona Identities.">¹²</span></span>
               </td>
             </tr>
           </tbody>
@@ -1041,10 +1603,20 @@
             <div class="legend-item"><span class="legend-color legend-excellent"></span> Best option</div>
             <div class="legend-item legend-subjective"><span class="legend-color legend-great"></span> Sufficient option
               (subjectively)</div>
+            <div class="legend-item legend-usa"><span class="legend-color legend-usa-restricted"></span> Includes
+              USA-exclusive
+              features
+            </div>
           </div>
-          <div class="subjective-toggle">
-            <span class="toggle-label">Subjective recommendations</span>
-            <div class="toggle-switch active" onclick="toggleSubjective()"></div>
+          <div class="toggle-container">
+            <div class="usa-toggle">
+              <span class="toggle-label">USA-exclusive features</span>
+              <div class="toggle-switch active" onclick="toggleUSAExclusive()"></div>
+            </div>
+            <div class="subjective-toggle">
+              <span class="toggle-label">Subjective recommendations</span>
+              <div class="toggle-switch active" onclick="toggleSubjective()"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1060,20 +1632,27 @@
           <li data-num="3.">According to user reports. The actual limits are not public.</li>
           <li data-num="4.">Open AI has only reported that deep research uses a thinking model, it is safe to assume
             it's the latest one.</li>
-          <li data-num="5.">Ads only in the USA, for now.</li>
+          <li data-num="5.">Only in the USA, for now.</li>
           <li data-num="6.">While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not
             to call it when actually needed; which sometimes provokes inconsistent outputs.</li>
-          <li data-num="7.">Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.</li>
-          <li data-num="8.">NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a
+          <li data-num="7.">Gemini can use your connected Google services (such as Gmail; Google Drive; Google
+            Photos; Google, Maps, and YouTube search history and other Google Workspace services) through Gemini
+            Personal Intelligence to help you
+            find information, personalize answers and more.
+            Of course, only if toggled by the user, since the option is off by default.</li>
+          <li data-num="8.">Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.</li>
+          <li data-num="9.">NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a
             folder structure when used insideGemini; and when used on the NotebookLM site it is
             less creative due to an anti-hallucination tuning.
           </li>
-          <li data-num="9.">Free accounts use the Google account's free 15GB storage.</li>
-          <li data-num="10.">AI-based age estimation can be unreliable, sometimes flagging an account as
+          <li data-num="10.">Free accounts use the Google account's free 15GB storage.</li>
+          <li data-num="11.">AI-based age estimation can be unreliable, sometimes flagging an account as
             underage based on the user's preferences.</li>
-          <li data-num="11.">Which age verification method is better depends on whether you're more comfortable sharing
+          <li data-num="12.">Which age verification method is better depends on whether you're more comfortable sharing
             proof of a credit card (or an ID if you don't have one) with Google, or sharing your ID with Persona
             Identities.</li>
+          <li data-num="13.">ChatGPT can proactively research topics and present them as a briefing, unprompted, through
+            ChatGPT Pulse.</li>
         </ul>
       </div>
     </section>
@@ -1520,6 +2099,60 @@
       tabContent.classList.toggle('hide-subjective');
     }
 
+    // Toggle function for USA-exclusive features
+    function toggleUSAExclusive() {
+      const toggle = document.querySelector('.usa-toggle .toggle-switch');
+      const tabContent = document.getElementById('tab-specs');
+      toggle.classList.toggle('active');
+      tabContent.classList.toggle('hide-usa-exclusive');
+    }
+
+    // Toggle function for price tier with animation
+    function switchPriceTier(tier) {
+      const freeBtn = document.getElementById('btn-tier-free');
+      const lowBtn = document.getElementById('btn-tier-low');
+      const highBtn = document.getElementById('btn-tier-high');
+      const freeTable = document.getElementById('table-free-tier');
+      const lowTable = document.getElementById('table-low-tier');
+      const highTable = document.getElementById('table-high-tier');
+
+      const allButtons = [freeBtn, lowBtn, highBtn];
+      const allTables = [freeTable, lowTable, highTable];
+
+      // Find current visible table
+      const currentTable = allTables.find(t => !t.classList.contains('hidden'));
+      const nextTable = tier === 'free' ? freeTable : (tier === 'low' ? lowTable : highTable);
+
+      // If clicking the same tier, do nothing
+      if (currentTable === nextTable) return;
+
+      // Update button states immediately
+      allButtons.forEach(btn => btn.classList.remove('active'));
+      if (tier === 'free') {
+        freeBtn.classList.add('active');
+      } else if (tier === 'low') {
+        lowBtn.classList.add('active');
+      } else {
+        highBtn.classList.add('active');
+      }
+
+      // Fade out current table
+      currentTable.classList.add('fade-out');
+
+      // After fade out, switch tables and fade in
+      setTimeout(() => {
+        allTables.forEach(t => t.classList.add('hidden'));
+        allTables.forEach(t => t.classList.remove('fade-out'));
+        nextTable.classList.remove('hidden');
+        nextTable.classList.add('fade-in');
+
+        // Remove animation class after it completes
+        setTimeout(() => {
+          nextTable.classList.remove('fade-in');
+        }, 350);
+      }, 150);
+    }
+
     // Toggle function for Claude models - syncs all toggles
     function toggleClaudeModels() {
       showClaudeModels = !showClaudeModels;
@@ -1551,7 +2184,9 @@
 
   <footer
     style="text-align: center; padding: 2rem 1rem; margin-top: 3rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem;">
-    <em>Last updated on 22/01/2026</em>
+    Made by <strong> u/Pasto_Shouwa</strong>
+    <br>
+    <em>Last updated on 23/01/2026</em>
   </footer>
 </body>
 
