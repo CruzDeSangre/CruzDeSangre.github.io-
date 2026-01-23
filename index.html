@@ -1141,7 +1141,7 @@
             </tr>
             <tr>
               <td>Non-reasoning model limit per day</td>
-              <td>40<span class="detail">(10 every 5h)<span class="detail">[GPT 5.2 Instant]</span></td>
+              <td>40<span class="detail">(10 every 5h)</span><span class="detail">[GPT 5.2 Instant]</span></td>
               <td class="rating-excellent">Unlimited<span class="detail">[Gemini 3 Flash]</span></td>
             </tr>
             <tr>
@@ -1208,12 +1208,12 @@
             <tr>
               <td>Video processing per day</td>
               <td>No</td>
-              <td class="rating-excellent">3<span class="detail">(Up to 5 minutes per file)</td>
+              <td class="rating-excellent">3<span class="detail">(Up to 5 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Audio processing per day</td>
               <td>No</td>
-              <td class="rating-excellent">3<span class="detail">(Up to 10 minutes per file)</td>
+              <td class="rating-excellent">3<span class="detail">(Up to 10 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Youtube summaries</td>
@@ -1308,13 +1308,14 @@
               <td>Memory features</td>
               <td>Memories</td>
               <td>Memories</td>
-              <td class="rating-great">Memories, chat history, chat search</td>
+              <td id="memory-chatgpt-plus" class="rating-great">Memories, chat history, chat search</td>
               <td colspan="2">Memories, chat history<span class="annotation"
                   data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span>
               </td>
-              <td class="rating-great usa-restricted">Memories, chat history, <span class="annotation"
+              <td id="memory-gemini-pro" class="rating-great usa-restricted">Memories, chat history<span
+                  class="annotation"
                   data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span><span
-                  class="usa-only">ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
+                  class="usa-only">, ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
                   Photos; Google, Maps, and YouTube search history and other Google Workspace services) through Gemini Personal Intelligence to help you
                   find information, personalize answers and more.
                   Of course, only if toggled by the user, since the option is off by default.">⁷</span><span
@@ -1394,16 +1395,16 @@
             <tr>
               <td>Video processing per day</td>
               <td colspan="3" class="separator">No</td>
-              <td>3<span class="detail">(Up to 5 minutes per file)</td>
-              <td>6<span class="detail">(Up to 5 minutes per file)</td>
-              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</td>
+              <td>3<span class="detail">(Up to 5 minutes per file)</span></td>
+              <td>6<span class="detail">(Up to 5 minutes per file)</span></td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Audio processing per day</td>
               <td colspan="3" class="separator">No</td>
-              <td>3<span class="detail">(Up to 10 minutes per file)</td>
-              <td>6<span class="detail">(Up to 10 minutes per file)</td>
-              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</td>
+              <td>3<span class="detail">(Up to 10 minutes per file)</span></td>
+              <td>6<span class="detail">(Up to 10 minutes per file)</span></td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Youtube summaries</td>
@@ -1493,12 +1494,14 @@
             </tr>
             <tr>
               <td>Memory features</td>
-              <td class="rating-great">Memories, chat history, chat search, proactive research<span class="annotation"
+              <td id="memory-chatgpt-pro" class="rating-great">Memories, chat history, chat search, proactive
+                research<span class="annotation"
                   data-tooltip="ChatGPT can proactively research topics and present them as a briefing, unprompted, through ChatGPT Pulse.">¹³</span>
               </td>
-              <td class="rating-great usa-restricted">Memories, chat history, <span class="annotation"
+              <td id="memory-gemini-ultra" class="rating-great usa-restricted">Memories, chat history<span
+                  class="annotation"
                   data-tooltip="While Gemini has a memory feature, it sometimes calls memory when not needed, or decides not to call it when actually needed; which sometimes provokes inconsistent outputs.">⁶</span><span
-                  class="usa-only">ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
+                  class="usa-only">, ecosystem memory<span class="annotation" data-tooltip="Gemini can use your connected Google services (such as Gmail; Google Drive; Google
                   Photos; Google, Maps, and YouTube search history and other Google Workspace services) through Gemini Personal Intelligence to help you
                   find information, personalize answers and more.
                   Of course, only if toggled by the user, since the option is off by default.">⁷</span><span
@@ -1534,14 +1537,17 @@
               <td class="rating-great">250<span class="detail">[GPT 5.2 Thinking]<span class="annotation"
                     data-tooltip="OpenAI has only reported that deep research uses a thinking model, it is safe to assume it's the latest one.">⁴</span></span>
               </td>
-              <td class="rating-excellent">6000<span class="detail">(200/day)<span class="detail">[Gemini 3 Pro]</span>
+              <td class="rating-excellent">6000<span class="detail">(200/day)</span><span class="detail">[Gemini 3
+                  Pro]</span></td>
             </tr>
             <tr>
               <td>Agent mode uses per month</td>
-              <td class="rating-great">400</td>
-              <td class="rating-excellent usa-restricted"><span class="usa-main"><span class="usa-only"></span>6000<span
-                    class="annotation" data-tooltip="Only in the USA, for now.">⁵</span><span class="detail"
-                    class="usa-only">(200/day)</span></span><span class="usa-alt">No</span></td>
+              <td id="agent-chatgpt-pro" class="rating-great">400</td>
+              <td id="agent-gemini-ultra" class="rating-excellent usa-restricted">
+                <span class="usa-main">6000<span class="annotation"
+                    data-tooltip="Only in the USA, for now.">⁵</span></span><span class="usa-alt">No</span>
+                <span class="detail"><span class="usa-only">(200/day)</span></span>
+              </td>
             </tr>
             <tr class="usa-ad-row">
               <td>Advertisements</td>
@@ -1551,12 +1557,12 @@
             <tr>
               <td>Video processing per day</td>
               <td class="separator">No</td>
-              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 60 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Audio processing per day</td>
               <td class="separator">No</td>
-              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</td>
+              <td class="rating-excellent separator">20<span class="detail">(Up to 180 minutes per file)</span></td>
             </tr>
             <tr>
               <td>Youtube summaries</td>
@@ -1642,7 +1648,7 @@
             Of course, only if toggled by the user, since the option is off by default.</li>
           <li data-num="8.">Estimated based on Plus reasoning model limits being ~1/3 of Pro limits.</li>
           <li data-num="9.">NotebookLM differs from Projects. While it can be linked with Gemini chats, it lacks a
-            folder structure when used insideGemini; and when used on the NotebookLM site it is
+            folder structure when used inside Gemini; and when used on the NotebookLM site it is
             less creative due to an anti-hallucination tuning.
           </li>
           <li data-num="10.">Free accounts use the Google account's free 15GB storage.</li>
@@ -1774,8 +1780,8 @@
             <li>Nanobanana Pro offers faster image generation than GPT Image 1.5. Its images also appear more realistic
               (subjectively)</li>
             <li>Native Android integration (iOS confirmed to come soon), though it can be over-eager with tool calls
-            <li>Offers uses of Claude Opus 4.5 and Claude Sonnet 4.5 through the Antigravity app
             </li>
+            <li>Offers uses of Claude Opus 4.5 and Claude Sonnet 4.5 through the Antigravity app</li>
           </ul>
         </div>
       </div>
@@ -2097,14 +2103,59 @@
       const tabContent = document.getElementById('tab-specs');
       toggle.classList.toggle('active');
       tabContent.classList.toggle('hide-subjective');
+      // Save state to localStorage
+      localStorage.setItem('subjectiveToggleActive', toggle.classList.contains('active'));
     }
 
     // Toggle function for USA-exclusive features
+    // DEV REMINDER: When USA-exclusive is OFF, Gemini Pro loses "ecosystem memory" advantage,
+    // so ChatGPT Plus becomes the better option for Memory features
     function toggleUSAExclusive() {
       const toggle = document.querySelector('.usa-toggle .toggle-switch');
       const tabContent = document.getElementById('tab-specs');
       toggle.classList.toggle('active');
       tabContent.classList.toggle('hide-usa-exclusive');
+      // Save state to localStorage
+      localStorage.setItem('usaExclusiveToggleActive', toggle.classList.contains('active'));
+
+      // Toggle Memory features ratings based on USA-exclusive state
+      const isUSAExclusiveOn = toggle.classList.contains('active');
+
+      // $0-$20 table cells
+      const memoryGeminiPro = document.getElementById('memory-gemini-pro');
+      const memoryChatGPTPlus = document.getElementById('memory-chatgpt-plus');
+      // $200-$250 table cells
+      const memoryGeminiUltra = document.getElementById('memory-gemini-ultra');
+      const memoryChatGPTPro = document.getElementById('memory-chatgpt-pro');
+      // Agent mode cells ($200-$250)
+      const agentGeminiUltra = document.getElementById('agent-gemini-ultra');
+      const agentChatGPTPro = document.getElementById('agent-chatgpt-pro');
+
+      if (isUSAExclusiveOn) {
+        // USA features ON: Gemini has ecosystem memory advantage
+        memoryGeminiPro.classList.add('rating-great');
+        memoryChatGPTPlus.classList.remove('rating-excellent');
+        memoryChatGPTPlus.classList.add('rating-great');
+        memoryGeminiUltra.classList.add('rating-great');
+        memoryChatGPTPro.classList.remove('rating-excellent');
+        memoryChatGPTPro.classList.add('rating-great');
+        // Agent mode: Gemini Ultra has 6000 uses (USA only)
+        agentGeminiUltra.classList.add('rating-excellent');
+        agentChatGPTPro.classList.remove('rating-excellent');
+        agentChatGPTPro.classList.add('rating-great');
+      } else {
+        // USA features OFF: Gemini loses ecosystem memory, ChatGPT becomes excellent
+        memoryGeminiPro.classList.remove('rating-great');
+        memoryChatGPTPlus.classList.remove('rating-great');
+        memoryChatGPTPlus.classList.add('rating-excellent');
+        memoryGeminiUltra.classList.remove('rating-great');
+        memoryChatGPTPro.classList.remove('rating-great');
+        memoryChatGPTPro.classList.add('rating-excellent');
+        // Agent mode: Gemini Ultra has no agent mode without USA
+        agentGeminiUltra.classList.remove('rating-excellent');
+        agentChatGPTPro.classList.remove('rating-great');
+        agentChatGPTPro.classList.add('rating-excellent');
+      }
     }
 
     // Toggle function for price tier with animation
@@ -2151,6 +2202,8 @@
           nextTable.classList.remove('fade-in');
         }, 350);
       }, 150);
+      // Save state to localStorage
+      localStorage.setItem('priceTier', tier);
     }
 
     // Toggle function for Claude models - syncs all toggles
@@ -2179,7 +2232,107 @@
       // Update MRCR chart
       mrcrChart.data.datasets = getMrcrDatasets();
       mrcrChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
+      // Save state to localStorage
+      localStorage.setItem('claudeModelsVisible', showClaudeModels);
     }
+
+    // Initialize saved toggle states from localStorage on page load
+    function initializeSavedStates() {
+      // Restore Claude models toggle state
+      const savedClaude = localStorage.getItem('claudeModelsVisible');
+      if (savedClaude === 'false') {
+        // Default is visible (true), so hide them
+        showClaudeModels = false;
+        document.querySelectorAll('.claude-toggle').forEach(toggle => {
+          toggle.classList.remove('active');
+        });
+        // Update charts without animation (instant)
+        const omniscienceData = getOmniscienceData();
+        omniscienceChart.data.labels = omniscienceData.labels;
+        omniscienceChart.data.datasets[0].data = omniscienceData.correct;
+        omniscienceChart.data.datasets[1].data = omniscienceData.abstention;
+        omniscienceChart.data.datasets[2].data = omniscienceData.hallucination;
+        omniscienceChart.update('none');
+        mrcrChart.data.datasets = getMrcrDatasets();
+        mrcrChart.update('none');
+      }
+
+      // Restore subjective toggle state
+      const savedSubjective = localStorage.getItem('subjectiveToggleActive');
+      if (savedSubjective === 'false') {
+        // Default is active (ON), so we need to toggle OFF
+        const subjectiveToggle = document.querySelector('.subjective-toggle .toggle-switch');
+        const tabContent = document.getElementById('tab-specs');
+        if (subjectiveToggle) {
+          subjectiveToggle.classList.remove('active');
+          tabContent.classList.add('hide-subjective');
+        }
+      }
+
+      // Restore USA-exclusive toggle state
+      const savedUSA = localStorage.getItem('usaExclusiveToggleActive');
+      if (savedUSA === 'false') {
+        // Default is active (ON), so we need to toggle OFF and apply all effects
+        const usaToggle = document.querySelector('.usa-toggle .toggle-switch');
+        const tabContent = document.getElementById('tab-specs');
+        if (usaToggle) {
+          usaToggle.classList.remove('active');
+          tabContent.classList.add('hide-usa-exclusive');
+          // Apply the rating changes for USA OFF state
+          const memoryGeminiPro = document.getElementById('memory-gemini-pro');
+          const memoryChatGPTPlus = document.getElementById('memory-chatgpt-plus');
+          const memoryGeminiUltra = document.getElementById('memory-gemini-ultra');
+          const memoryChatGPTPro = document.getElementById('memory-chatgpt-pro');
+          const agentGeminiUltra = document.getElementById('agent-gemini-ultra');
+          const agentChatGPTPro = document.getElementById('agent-chatgpt-pro');
+          if (memoryGeminiPro) memoryGeminiPro.classList.remove('rating-great');
+          if (memoryChatGPTPlus) {
+            memoryChatGPTPlus.classList.remove('rating-great');
+            memoryChatGPTPlus.classList.add('rating-excellent');
+          }
+          if (memoryGeminiUltra) memoryGeminiUltra.classList.remove('rating-great');
+          if (memoryChatGPTPro) {
+            memoryChatGPTPro.classList.remove('rating-great');
+            memoryChatGPTPro.classList.add('rating-excellent');
+          }
+          if (agentGeminiUltra) agentGeminiUltra.classList.remove('rating-excellent');
+          if (agentChatGPTPro) {
+            agentChatGPTPro.classList.remove('rating-great');
+            agentChatGPTPro.classList.add('rating-excellent');
+          }
+        }
+      }
+
+      // Restore price tier selection
+      const savedTier = localStorage.getItem('priceTier');
+      if (savedTier && savedTier !== 'low') {
+        // Default is 'low', so only switch if different
+        const freeBtn = document.getElementById('btn-tier-free');
+        const lowBtn = document.getElementById('btn-tier-low');
+        const highBtn = document.getElementById('btn-tier-high');
+        const freeTable = document.getElementById('table-free-tier');
+        const lowTable = document.getElementById('table-low-tier');
+        const highTable = document.getElementById('table-high-tier');
+
+        if (freeBtn && lowBtn && highBtn && freeTable && lowTable && highTable) {
+          // Remove active from all buttons, hide all tables
+          [freeBtn, lowBtn, highBtn].forEach(btn => btn.classList.remove('active'));
+          [freeTable, lowTable, highTable].forEach(table => table.classList.add('hidden'));
+
+          // Activate the saved tier
+          if (savedTier === 'free') {
+            freeBtn.classList.add('active');
+            freeTable.classList.remove('hidden');
+          } else if (savedTier === 'high') {
+            highBtn.classList.add('active');
+            highTable.classList.remove('hidden');
+          }
+        }
+      }
+    }
+
+    // Initialize states when DOM is ready
+    initializeSavedStates();
   </script>
 
   <footer
