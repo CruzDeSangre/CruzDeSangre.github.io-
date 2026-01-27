@@ -1770,7 +1770,7 @@
         </div>
         <div class="toggle-inline chatgpt-pro-toggle">
           <span class="toggle-label">ChatGPT Pro-only models</span>
-          <div class="toggle-switch chatgpt-pro-model-toggle active" onclick="toggleChatGPTProModels()"></div>
+          <div class="toggle-switch chatgpt-pro-model-toggle" onclick="toggleChatGPTProModels()"></div>
         </div>
       </div>
       <div class="chart-container">
@@ -1816,7 +1816,7 @@
         </div>
         <div class="toggle-inline chatgpt-pro-toggle">
           <span class="toggle-label">ChatGPT Pro-only models</span>
-          <div class="toggle-switch chatgpt-pro-model-toggle active" onclick="toggleChatGPTProModels()"></div>
+          <div class="toggle-switch chatgpt-pro-model-toggle" onclick="toggleChatGPTProModels()"></div>
         </div>
       </div>
       <div class="chart-container">
@@ -1860,7 +1860,7 @@
           </div>
           <div class="toggle-inline chatgpt-pro-toggle">
             <span class="toggle-label">ChatGPT Pro-only models</span>
-            <div class="toggle-switch chatgpt-pro-model-toggle active" onclick="toggleChatGPTProModels()"></div>
+            <div class="toggle-switch chatgpt-pro-model-toggle" onclick="toggleChatGPTProModels()"></div>
           </div>
         </div>
         <div class="chart-container">
@@ -1883,7 +1883,7 @@
           </div>
           <div class="toggle-inline chatgpt-pro-toggle">
             <span class="toggle-label">ChatGPT Pro-only models</span>
-            <div class="toggle-switch chatgpt-pro-model-toggle active" onclick="toggleChatGPTProModels()"></div>
+            <div class="toggle-switch chatgpt-pro-model-toggle" onclick="toggleChatGPTProModels()"></div>
           </div>
         </div>
         <div class="chart-container">
@@ -3201,6 +3201,13 @@
         showChatGPTProModels = true;
         document.querySelectorAll('.chatgpt-pro-model-toggle').forEach(toggle => {
           toggle.classList.add('active');
+        });
+        needsChartUpdate = true;
+      } else if (savedChatGPTPro === 'false') {
+        // Ensure toggle is off (remove active class from any toggles that may have it in HTML)
+        showChatGPTProModels = false;
+        document.querySelectorAll('.chatgpt-pro-model-toggle').forEach(toggle => {
+          toggle.classList.remove('active');
         });
         needsChartUpdate = true;
       }
