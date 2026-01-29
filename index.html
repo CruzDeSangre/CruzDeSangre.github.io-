@@ -1842,6 +1842,28 @@
         </div>
       </div>
 
+      <!-- Visual Reasoning - MMMU-Pro -->
+      <div class="section-title-wrapper" style="margin-top: 3rem;">
+        <h2 class="section-title">Visual Reasoning — MMMU-Pro</h2>
+        <div class="toggle-inline">
+          <span class="toggle-label">Claude models</span>
+          <div class="toggle-switch claude-toggle active" onclick="toggleClaudeModels()"></div>
+        </div>
+        <div class="toggle-inline instant-toggle">
+          <span class="toggle-label">Non-reasoning models</span>
+          <div class="toggle-switch instant-model-toggle active" onclick="toggleInstantModels()"></div>
+        </div>
+        <div class="toggle-inline chatgpt-pro-toggle">
+          <span class="toggle-label">ChatGPT Pro-only models</span>
+          <div class="toggle-switch chatgpt-pro-model-toggle" onclick="toggleChatGPTProModels()"></div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="mmmuProChart"></canvas>
+      </div>
+      <p class="chart-note">Shows performance processing visual and textual information at the same time. Higher is
+        better.</p>
+
       <!-- Terminal-Bench Hard -->
       <div class="coding-benchmark-section">
         <div class="section-title-wrapper" style="margin-top: 3rem;">
@@ -1896,12 +1918,17 @@
             is only
             available on Codex and Visual Studio Code, not the web or the app.</li>
           <li>• For "<strong>GPT 5.2 Thinking xhigh</strong>", "<em>gpt-5.2:xhigh</em>" was used in the graph.
-            A weaker (33.33% lower reasoning time) version of this model is available only for ChatGPT Pro accounts, by
+            A weaker (x0.67 reasoning time) version of this model is available only for ChatGPT Pro accounts, by
             selecting "heavy" as the thinking effort with 5.2 Thinking or "standard" as the thinking effort with 5.2
             Pro.
             The actual model is available only when selecting "extended" as the thinking effort with 5.2 Pro.
           </li>
-          <li>• For "<strong>GPT 5.2 Thinking</strong>", "<em>gpt-5.2:medium</em>" was used in the graph.</li>
+          <li>• For "<strong>GPT 5.2 Thinking</strong>", "<em>gpt-5.2:medium</em>" was used in the graph.
+            A stronger (x2 reasoning time) version of this model is available for ChatGPT Plus and Pro accounts, by
+            selecting "extended" as the thinking effort with 5.2 Thinking. Selecting "standard" as the thinking effort
+            actually
+            uses a model weaker than it (x0.5 reasoning time).
+          </li>
           <li>• For "<strong>GPT 5.2 Instant</strong>", "<em>gpt-5.2</em>" was used in the graph.</li>
           <li>• For "<strong>Gemini 3 Pro</strong>", "<em>gemini-3-pro-preview:high</em>" was used in the
             graph.</li>
@@ -2574,6 +2601,137 @@
       }
     });
 
+    // Visual Reasoning - MMMU-Pro - Horizontal Bar Chart
+    let mmmuProChart;
+    const mmmuProCodingModels = [
+      { label: '⌘ GPT 5.2 Codex', score: 76, sortOrder: 10 }
+    ];
+    const mmmuProReasoningModels = [
+      { label: '⌘ GPT 5.2 Thinking', score: 75, sortOrder: 20 },
+      { label: '✦ Gemini 3 Pro', score: 80, sortOrder: 40 },
+      { label: '✦ Gemini 3 Flash Thinking', score: 80, sortOrder: 50 }
+    ];
+    const mmmuProChatGPTProModels = [
+      { label: '⌘ GPT 5.2 Thinking xhigh', score: 79, sortOrder: 15 }
+    ];
+    const mmmuProInstantModels = [
+      { label: '⌘ GPT 5.2 Instant', score: 66, sortOrder: 30 },
+      { label: '✦ Gemini 3 Flash', score: 79, sortOrder: 60 }
+    ];
+    const mmmuProClaudeModels = [
+      { label: '❋ Claude Opus 4.5 Thinking', score: 74, sortOrder: 70 },
+      { label: '❋ Claude 4.5 Sonnet Thinking', score: 69, sortOrder: 80 },
+      { label: '❋ Claude 4.5 Haiku Thinking', score: 58, sortOrder: 90 }
+    ];
+
+    function getMmmuProData() {
+      // Collect all visible models
+      let models = [...mmmuProReasoningModels];
+
+      if (showCodingBenchmarks) {
+        models = [...models, ...mmmuProCodingModels];
+      }
+
+      if (showChatGPTProModels) {
+        models = [...models, ...mmmuProChatGPTProModels];
+      }
+
+      if (showInstantModels) {
+        models = [...models, ...mmmuProInstantModels];
+      }
+
+      if (showClaudeModels) {
+        models = [...models, ...mmmuProClaudeModels];
+      }
+
+      // Sort by sortOrder to maintain family grouping
+      models.sort((a, b) => a.sortOrder - b.sortOrder);
+
+      // Extract arrays for Chart.js
+      const labels = models.map(m => m.label);
+      const data = models.map(m => m.score);
+
+      // Create background colors array with striped pattern for non-reasoning models
+      const baseColor = 'rgba(139, 92, 246, 0.7)';
+      const borderColor = 'rgba(139, 92, 246, 1)';
+
+      let backgroundColors;
+      if (useStripedPatternsForNonReasoning) {
+        const stripedPattern = createStripedPattern(baseColor);
+        backgroundColors = labels.map(label => {
+          // Non-reasoning models get striped pattern
+          if (label === 'GPT 5.2 Instant' || label === 'Gemini 3 Flash') {
+            return stripedPattern;
+          }
+          return baseColor;
+        });
+      } else {
+        backgroundColors = baseColor;
+      }
+
+      return { labels, data, backgroundColors, borderColor };
+    }
+
+    const mmmuProCtx = document.getElementById('mmmuProChart').getContext('2d');
+    const mmmuProInitData = getMmmuProData();
+    mmmuProChart = new Chart(mmmuProCtx, {
+      type: 'bar',
+      data: {
+        labels: mmmuProInitData.labels,
+        datasets: [{
+          label: 'Score ↑',
+          data: mmmuProInitData.data,
+          backgroundColor: mmmuProInitData.backgroundColors,
+          borderColor: mmmuProInitData.borderColor,
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(18, 18, 26, 0.95)',
+            titleColor: '#d9c5a2',
+            bodyColor: '#b3a385',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function (context) {
+                return context.parsed.x + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function (value) {
+                return value + '%';
+              }
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+
     // Terminal-Bench Hard - Horizontal Bar Chart
     let terminalBenchChart;
     const terminalBenchCodingModels = [
@@ -2980,6 +3138,13 @@
       lcrChart.data.datasets[0].backgroundColor = lcrData.backgroundColors;
       lcrChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
 
+      // Update MMMU-Pro chart
+      const mmmuProData = getMmmuProData();
+      mmmuProChart.data.labels = mmmuProData.labels;
+      mmmuProChart.data.datasets[0].data = mmmuProData.data;
+      mmmuProChart.data.datasets[0].backgroundColor = mmmuProData.backgroundColors;
+      mmmuProChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
+
       // Update Terminal-Bench chart
       const terminalBenchData = getTerminalBenchData();
       terminalBenchChart.data.labels = terminalBenchData.labels;
@@ -3035,6 +3200,13 @@
       lcrChart.data.datasets[0].backgroundColor = lcrData.backgroundColors;
       lcrChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
 
+      // Update MMMU-Pro chart
+      const mmmuProData = getMmmuProData();
+      mmmuProChart.data.labels = mmmuProData.labels;
+      mmmuProChart.data.datasets[0].data = mmmuProData.data;
+      mmmuProChart.data.datasets[0].backgroundColor = mmmuProData.backgroundColors;
+      mmmuProChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
+
       // Update Terminal-Bench chart
       const terminalBenchData = getTerminalBenchData();
       terminalBenchChart.data.labels = terminalBenchData.labels;
@@ -3089,6 +3261,13 @@
       lcrChart.data.datasets[0].data = lcrData.data;
       lcrChart.data.datasets[0].backgroundColor = lcrData.backgroundColors;
       lcrChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
+
+      // Update MMMU-Pro chart
+      const mmmuProData = getMmmuProData();
+      mmmuProChart.data.labels = mmmuProData.labels;
+      mmmuProChart.data.datasets[0].data = mmmuProData.data;
+      mmmuProChart.data.datasets[0].backgroundColor = mmmuProData.backgroundColors;
+      mmmuProChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
 
       // Update Terminal-Bench chart
       const terminalBenchData = getTerminalBenchData();
@@ -3146,6 +3325,12 @@
       lcrChart.data.datasets[0].data = lcrData.data;
       lcrChart.data.datasets[0].backgroundColor = lcrData.backgroundColors;
       lcrChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
+
+      const mmmuProData = getMmmuProData();
+      mmmuProChart.data.labels = mmmuProData.labels;
+      mmmuProChart.data.datasets[0].data = mmmuProData.data;
+      mmmuProChart.data.datasets[0].backgroundColor = mmmuProData.backgroundColors;
+      mmmuProChart.update({ duration: animationConfig.duration, easing: animationConfig.easing });
 
       const terminalBenchData = getTerminalBenchData();
       terminalBenchChart.data.labels = terminalBenchData.labels;
@@ -3227,6 +3412,11 @@
         lcrChart.data.datasets[0].data = lcrData.data;
         lcrChart.data.datasets[0].backgroundColor = lcrData.backgroundColors;
         lcrChart.update('none');
+        const mmmuProData = getMmmuProData();
+        mmmuProChart.data.labels = mmmuProData.labels;
+        mmmuProChart.data.datasets[0].data = mmmuProData.data;
+        mmmuProChart.data.datasets[0].backgroundColor = mmmuProData.backgroundColors;
+        mmmuProChart.update('none');
         const terminalBenchData = getTerminalBenchData();
         terminalBenchChart.data.labels = terminalBenchData.labels;
         terminalBenchChart.data.datasets[0].data = terminalBenchData.data;
@@ -3321,7 +3511,7 @@
     style="text-align: center; padding: 2rem 1rem; margin-top: 3rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem;">
     Made by <strong> u/Pasto_Shouwa</strong>
     <br>
-    <em>Last updated on 28/01/2026</em>
+    <em>Last updated on 29/01/2026</em>
   </footer>
 </body>
 
